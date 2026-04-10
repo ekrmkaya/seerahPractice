@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prophet Muhammad ﷺ — Knowledge Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green-dark: #1a4a2e;
+    --green-mid: #2d7a4f;
+    --green-accent: #3fa66b;
+    --green-light: #e8f5ee;
+    --gold: #c9a84c;
+    --cream: #faf8f4;
+    --ink: #1c1c1c;
+    --ink-soft: #4a4a4a;
+    --border: #d8d0c0;
+  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+  header { width: 100%; background: var(--green-dark); padding: 2.5rem 1.5rem 2rem; text-align: center; position: relative; overflow: hidden; }
+  header::before { content: ''; position: absolute; inset: 0; background-image: repeating-linear-gradient(60deg, transparent, transparent 30px, rgba(255,255,255,0.025) 30px, rgba(255,255,255,0.026) 31px); }
+  header .arabic { font-family: 'Lora', serif; font-size: 1.5rem; color: var(--gold); letter-spacing: 0.08em; margin-bottom: 0.5rem; position: relative; }
+  header h1 { font-family: 'Lora', serif; font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 600; color: #fff; position: relative; line-height: 1.3; }
+  header p { color: rgba(255,255,255,0.6); font-size: 0.85rem; margin-top: 0.5rem; font-weight: 300; position: relative; }
+  .ornament { color: var(--gold); font-size: 1.1rem; letter-spacing: 0.5em; margin: 0.75rem 0 0.25rem; position: relative; }
+  main { width: 100%; max-width: 620px; padding: 2rem 1.25rem 3rem; }
+  #meta { display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--ink-soft); font-weight: 500; letter-spacing: 0.03em; margin-bottom: 0.75rem; text-transform: uppercase; }
+  #progress-bg { width: 100%; height: 5px; background: var(--border); border-radius: 99px; overflow: hidden; margin-bottom: 1.75rem; }
+  #progress-fill { height: 100%; background: var(--green-accent); border-radius: 99px; transition: width 0.5s cubic-bezier(.4,0,.2,1); width: 0%; }
+  #card { background: #fff; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 1.25rem; position: relative; }
+  #card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--green-dark), var(--green-accent)); }
+  #q-wrap { padding: 1.75rem 1.5rem 1.5rem; }
+  #q-num { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--green-mid); font-weight: 500; margin-bottom: 0.6rem; }
+  #q-text { font-family: 'Lora', serif; font-size: 1.1rem; line-height: 1.65; color: var(--ink); }
+  #reveal-btn { display: block; width: calc(100% - 3rem); margin: 0 1.5rem 1.5rem; padding: 13px; background: var(--green-light); border: 1px dashed var(--green-mid); border-radius: 10px; font-size: 0.88rem; font-family: 'DM Sans', sans-serif; color: var(--green-mid); font-weight: 500; cursor: pointer; letter-spacing: 0.02em; transition: background 0.15s, border-color 0.15s; text-align: center; }
+  #reveal-btn:hover { background: #d4eddf; border-color: var(--green-dark); color: var(--green-dark); }
+  #answer-wrap { border-top: 1px solid var(--border); padding: 1.25rem 1.5rem; display: none; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  #answer-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--green-mid); font-weight: 500; margin-bottom: 0.5rem; }
+  #answer-text { font-family: 'Lora', serif; font-size: 1.05rem; color: var(--green-dark); line-height: 1.55; font-weight: 600; }
+  #self-grade { display: none; gap: 12px; margin-bottom: 1.25rem; animation: fadeIn 0.25s ease; }
+  #self-grade button { flex: 1; padding: 12px; border-radius: 10px; font-size: 0.9rem; font-family: 'DM Sans', sans-serif; font-weight: 500; cursor: pointer; border: 1px solid; transition: opacity 0.15s, transform 0.1s; }
+  #self-grade button:active { transform: scale(0.97); }
+  #btn-correct { background: #e6f5ec; border-color: #2d7a4f; color: #1a4a2e; }
+  #btn-correct:hover { background: #d0eddb; }
+  #btn-wrong { background: #fdecea; border-color: #c0392b; color: #7a1e1e; }
+  #btn-wrong:hover { background: #fad5d3; }
+  #next-btn { display: none; width: 100%; padding: 13px; background: var(--green-dark); color: #fff; border: none; border-radius: 10px; font-size: 0.92rem; font-family: 'DM Sans', sans-serif; font-weight: 500; cursor: pointer; transition: background 0.15s; letter-spacing: 0.02em; }
+  #next-btn:hover { background: var(--green-mid); }
+  #score-box { display: none; text-align: center; background: #fff; border: 1px solid var(--border); border-radius: 20px; padding: 3rem 2rem; position: relative; overflow: hidden; }
+  #score-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--green-dark), var(--gold), var(--green-accent)); }
+  #score-box .bismillah { font-family: 'Lora', serif; font-size: 1.4rem; color: var(--gold); margin-bottom: 0.5rem; }
+  #score-box h2 { font-family: 'Lora', serif; font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem; }
+  #score-ring { width: 130px; height: 130px; margin: 0 auto 1.5rem; position: relative; }
+  #score-ring svg { transform: rotate(-90deg); }
+  #score-ring-num { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'Lora', serif; }
+  #score-ring-num .big { font-size: 2rem; font-weight: 600; color: var(--green-dark); line-height: 1; }
+  #score-ring-num .small { font-size: 0.75rem; color: var(--ink-soft); margin-top: 2px; }
+  #score-msg { font-size: 1rem; color: var(--ink-soft); margin-bottom: 2rem; line-height: 1.6; max-width: 320px; margin-left: auto; margin-right: auto; }
+  #restart-btn { padding: 12px 32px; background: var(--green-dark); color: #fff; border: none; border-radius: 10px; font-size: 0.95rem; font-family: 'DM Sans', sans-serif; font-weight: 500; cursor: pointer; transition: background 0.15s; }
+  #restart-btn:hover { background: var(--green-mid); }
+  footer { text-align: center; padding: 1.5rem; font-size: 0.78rem; color: var(--ink-soft); border-top: 1px solid var(--border); width: 100%; margin-top: auto; }
+  @media (max-width: 480px) { #q-wrap { padding: 1.25rem 1rem 1rem; } #q-text { font-size: 1rem; } #reveal-btn { width: calc(100% - 2rem); margin: 0 1rem 1rem; } #answer-wrap { padding: 1rem; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="arabic">بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ</div>
+  <div class="ornament">✦ ✦ ✦</div>
+  <h1>Prophet Muhammad ﷺ<br>Knowledge Quiz</h1>
+  <p>41 questions · Think of your answer, then reveal</p>
+</header>
+
+<main>
+  <div id="meta">
+    <span id="q-counter">Question 1 of 41</span>
+    <span id="score-track">Score: 0</span>
+  </div>
+  <div id="progress-bg"><div id="progress-fill"></div></div>
+
+  <div id="card">
+    <div id="q-wrap">
+      <p id="q-num"></p>
+      <p id="q-text"></p>
+    </div>
+    <button id="reveal-btn">Tap to reveal answer</button>
+    <div id="answer-wrap">
+      <p id="answer-label">Answer</p>
+      <p id="answer-text"></p>
+    </div>
+  </div>
+
+  <div id="self-grade">
+    <button id="btn-correct" onclick="grade(true)">✓ I got it right</button>
+    <button id="btn-wrong" onclick="grade(false)">✗ I got it wrong</button>
+  </div>
+
+  <button id="next-btn">Next question →</button>
+
+  <div id="score-box">
+    <div class="bismillah">ﷺ</div>
+    <h2>Quiz Complete</h2>
+    <div id="score-ring">
+      <svg width="130" height="130" viewBox="0 0 130 130">
+        <circle cx="65" cy="65" r="54" fill="none" stroke="#e8f5ee" stroke-width="10"/>
+        <circle id="ring-arc" cx="65" cy="65" r="54" fill="none" stroke="#2d7a4f" stroke-width="10"
+          stroke-linecap="round" stroke-dasharray="339.3" stroke-dashoffset="339.3"/>
+      </svg>
+      <div id="score-ring-num">
+        <span class="big" id="ring-score">0</span>
+        <span class="small" id="ring-total">/ 41</span>
+      </div>
+    </div>
+    <p id="score-msg"></p>
+    <button id="restart-btn" onclick="startQuiz()">Play again</button>
+  </div>
+</main>
+
+<footer>May Allah's peace and blessings be upon the Prophet Muhammad ﷺ</footer>
+
+<script>
+const ALL_QUESTIONS = [
+  { q: "In what year and city was the Prophet Muhammad born?", a: "571 CE, in Mecca" },
+  { q: "What are the names of the Prophet's mother and father?", a: "His mother was Aminah, and his father was Abdullah" },
+  { q: "What was the Prophet Muhammad's profession before prophethood?", a: "He was a merchant (trader)" },
+  { q: "What is the name of the Prophet's grandfather?", a: "Abdul Muttalib" },
+  { q: "What is the name of the Prophet Muhammad's wet nurse (foster mother)?", a: "Halimah al-Sa'diyyah" },
+  { q: "Which angel brought revelation (Wahy) to the Prophet?", a: "Jibreel (Gabriel) عليه السلام" },
+  { q: "What are the sayings and statements of the Prophet called?", a: "Hadith" },
+  { q: "What are the actions and practices of the Prophet called?", a: "Sunnah" },
+  { q: "Why was the Prophet Muhammad given the title 'Al-Amin' (The Trustworthy)?", a: "Because he was always honest and truthful — he never lied" },
+  { q: "To whom was the Prophet Muhammad sent as a messenger?", a: "To all of humanity" },
+  { q: "What is the name of the sacred structure built for worship, located in Mecca?", a: "The Kaaba" },
+  { q: "At what age did the Prophet receive his prophethood?", a: "At 40 years old" },
+  { q: "Where did the first revelation of the Quran come down?", a: "In the Cave of Hira, on Jabal al-Nour (Mountain of Light)" },
+  { q: "What was the first verse revealed to the Prophet?", a: "Iqra — meaning 'Read' or 'Recite' (the beginning of Surah Al-Alaq)" },
+  { q: "Who were the first four people to accept Islam?", a: "Hz. Khadijah, Hz. Abu Bakr, Hz. Ali, and Hz. Zayd ibn Harithah" },
+  { q: "What is the name of the Prophet's first wife?", a: "Hz. Khadijah رضي الله عنها" },
+  { q: "What are the names of the Prophet's children?", a: "Sons: Qasim, Abdullah, Ibrahim. Daughters: Zaynab, Ruqayyah, Umm Kulthum, and Fatimah" },
+  { q: "Which of the Prophet's children outlived him?", a: "His daughter Fatimah رضي الله عنها" },
+  { q: "Which companions' embracing of Islam greatly accelerated its spread?", a: "Hz. Hamzah and Hz. Umar ibn al-Khattab رضي الله عنهما" },
+  { q: "What is the 'Year of Sorrow' (Aam al-Huzn), and why was it named so?", a: "The 10th year of prophethood — the year the Prophet's wife Khadijah and his uncle Abu Talib both passed away" },
+  { q: "To which land did the Prophet send some Muslims to escape persecution?", a: "Abyssinia (present-day Ethiopia)" },
+  { q: "What was the name of the Abyssinian king who welcomed the Muslims?", a: "The Negus (Ashama ibn Abjar)" },
+  { q: "Which companion did the Prophet send to Medina to teach Islam before the Hijra?", a: "Mus'ab ibn Umayr رضي الله عنه" },
+  { q: "During which event were the five daily prayers made obligatory?", a: "During the Night Journey and Ascension — Isra and Miraj" },
+  { q: "Who did the Prophet place in his bed when he secretly left his house for the Hijra?", a: "Hz. Ali ibn Abi Talib رضي الله عنه" },
+  { q: "Who protected the Prophet from childhood and until his own death?", a: "His uncle Abu Talib" },
+  { q: "Who are the 'Asharah Mubasharah'?", a: "The ten companions who were given glad tidings of Paradise during their lifetime" },
+  { q: "Why did the Prophet and the Muslims perform the Hijra (migration)?", a: "Due to the severe persecution and oppression of the Quraysh polytheists against the Muslims" },
+  { q: "Which cave did the Prophet and Abu Bakr hide in during the Hijra?", a: "The Cave of Thawr" },
+  { q: "Which creatures helped conceal the Prophet in the cave during the Hijra?", a: "A spider (which spun a web over the entrance) and a dove (which nested there)" },
+  { q: "At whose house did the Prophet stay when he first arrived in Medina?", a: "Abu Ayyub al-Ansari رضي الله عنه" },
+  { q: "What is the name given to the companions who migrated from Mecca to Medina?", a: "Muhajirun — the Emigrants" },
+  { q: "What is the name given to the companions of Medina who welcomed and helped the migrants?", a: "Ansar — the Helpers" },
+  { q: "Who gave the first call to prayer (Adhan)?", a: "Bilal ibn Rabah رضي الله عنه" },
+  { q: "Through whom did the Prophet's lineage continue after him?", a: "Through his daughter Fatimah رضي الله عنها" },
+  { q: "What is the name of the first peace agreement between the Meccans and the Muslims?", a: "The Treaty of Hudaybiyyah" },
+  { q: "In what year was Mecca conquered?", a: "630 CE (8 AH)" },
+  { q: "Where and when did the Prophet Muhammad pass away?", a: "In Medina, in 632 CE (11 AH)" },
+  { q: "Whose graves are beside that of the Prophet Muhammad ﷺ?", a: "Hz. Abu Bakr al-Siddiq and Hz. Umar ibn al-Khattab رضي الله عنهما" },
+  { q: "What are the names of the four Rightly-Guided Caliphs?", a: "Hz. Abu Bakr, Hz. Umar, Hz. Uthman, and Hz. Ali رضي الله عنهم" },
+  { q: "What are the names of the Prophet's grandsons?", a: "Hz. Hasan and Hz. Husayn رضي الله عنهما" }
+];
+
+let questions = [], current = 0, score = 0;
+function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
+
+function startQuiz() {
+  questions = shuffle(ALL_QUESTIONS);
+  current = 0; score = 0;
+  document.getElementById('score-box').style.display = 'none';
+  document.getElementById('card').style.display = 'block';
+  document.getElementById('self-grade').style.display = 'none';
+  document.getElementById('next-btn').style.display = 'none';
+  showQuestion();
+}
+
+function showQuestion() {
+  const q = questions[current];
+  const total = questions.length;
+  document.getElementById('progress-fill').style.width = ((current / total) * 100) + '%';
+  document.getElementById('q-counter').textContent = 'Question ' + (current + 1) + ' of ' + total;
+  document.getElementById('score-track').textContent = 'Score: ' + score;
+  document.getElementById('q-num').textContent = 'Question ' + (current + 1);
+  document.getElementById('q-text').textContent = q.q;
+  document.getElementById('answer-wrap').style.display = 'none';
+  document.getElementById('answer-text').textContent = q.a;
+  document.getElementById('reveal-btn').style.display = 'block';
+  document.getElementById('self-grade').style.display = 'none';
+  document.getElementById('next-btn').style.display = 'none';
+}
+
+document.getElementById('reveal-btn').onclick = function() {
+  document.getElementById('answer-wrap').style.display = 'block';
+  this.style.display = 'none';
+  document.getElementById('self-grade').style.display = 'flex';
+};
+
+function grade(correct) {
+  if (correct) score++;
+  document.getElementById('score-track').textContent = 'Score: ' + score;
+  document.getElementById('self-grade').style.display = 'none';
+  const nb = document.getElementById('next-btn');
+  nb.style.display = 'block';
+  nb.textContent = current + 1 < questions.length ? 'Next question →' : 'See results →';
+}
+
+document.getElementById('next-btn').onclick = () => {
+  current++;
+  if (current < questions.length) showQuestion();
+  else showScore();
+};
+
+function showScore() {
+  document.getElementById('card').style.display = 'none';
+  document.getElementById('self-grade').style.display = 'none';
+  document.getElementById('next-btn').style.display = 'none';
+  document.getElementById('progress-fill').style.width = '100%';
+  const total = questions.length;
+  const pct = score / total;
+  const circumference = 2 * Math.PI * 54;
+  setTimeout(() => {
+    document.getElementById('ring-arc').style.transition = 'stroke-dashoffset 1s ease';
+    document.getElementById('ring-arc').style.strokeDashoffset = circumference * (1 - pct);
+  }, 100);
+  document.getElementById('ring-score').textContent = score;
+  document.getElementById('ring-total').textContent = '/ ' + total;
+  const pctInt = Math.round(pct * 100);
+  document.getElementById('score-msg').textContent =
+    pctInt === 100 ? 'Perfect score! MashaAllah — your knowledge is exceptional.' :
+    pctInt >= 80 ? "Excellent! A strong understanding of the Prophet's ﷺ life." :
+    pctInt >= 60 ? 'Good effort! Keep learning — every step brings you closer.' :
+    'Keep going! Regular study of the Seerah brings great reward.';
+  document.getElementById('score-box').style.display = 'block';
+}
+
+startQuiz();
+</script>
+</body>
+</html>
